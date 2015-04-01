@@ -25,6 +25,14 @@ from mamba.core import packages
 from mamba import _version as _mamba_version
 from mamba.application import controller, model
 
+try:
+    from txgraylog.protocol import udp
+    from txgraylog.protocol import tcp
+    from txgraylog.observer import GraylogObserver
+    txgraylog_installed = True
+except ImportError:
+    txgraylog_installed = False
+
 
 _app_ver = versions.Version('Application', 0, 1, 0)
 _app_project_ver = versions.Version('Project', 0, 1, 0)
@@ -123,6 +131,20 @@ class Mamba(borg.Borg):
         if self.development is False and self._log_file is not None:
             self.already_logging = True
             log.startLogging(DailyLogFile.fromFullPath(self.log_file))
+
+        if self.development is False:
+            self._init_graylog2()
+
+    def _init_graylog2(self):
+        if not hasattr(self, 'graylog') or txgraylog_installed is False:
+            return
+
+        if self.graylog.get('active', False):
+            host = self.graylog['host']
+            port = self.graylog['port']
+
+            udp.UDPGelfProtocol.parameter_override = {'tag': self.name}
+            GraylogObserver(udp.UDPGelfProtocol, host, port).start()
 
     def _parse_options(self, options):
         if options is None:
