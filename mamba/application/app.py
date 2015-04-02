@@ -27,7 +27,6 @@ from mamba.application import controller, model
 
 try:
     from txgraylog.protocol import udp
-    from txgraylog.protocol import tcp
     from txgraylog.observer import GraylogObserver
     txgraylog_installed = True
 except ImportError:
