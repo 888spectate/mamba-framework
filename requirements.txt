@@ -5,10 +5,12 @@ zope.component
 transaction
 jinja2 >= 2.4
 singledispatch >= 3.4.0.1
+txGraylog
 
 # Testing utils
 doublex >= 1.5.1
 PyHamcrest
+mock
 
 # Documentation
 sphinx >= 1.1.3

@@ -115,6 +115,11 @@ class ApplicationTest(unittest.TestCase):
         self.assertEqual(config.Application().version, '0.1.2')
         self.assertEqual(config.Application().port, 8080)
         self.assertEqual(config.Application().logfile, None)
+        self.assertEqual(config.Application().graylog, {
+            "active": False,
+            "host": "127.0.0.1",
+            "port": 12201
+        })
 
     def test_fallback_works(self):
         self.assertFalse(config.Application().loaded)
