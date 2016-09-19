@@ -137,8 +137,10 @@ class Mamba(borg.Borg):
             elif key == 'version':
                 setattr(self, '_ver', getattr(options, key))
             elif key == 'log_file':
-                if getattr(options, key) is not None:
-                    log_file = 'logs/{}'.format(getattr(options, key))
+                log_file = getattr(options, key)
+                if log_file is not None:
+                    log_dir = getattr(options, 'log_dir', default='logs')
+                    log_file = '{}/{}'.format(log_dir, log_file)
                     setattr(self, '_log_file', log_file)
             else:
                 setattr(self, key, getattr(options, key))
