@@ -5,6 +5,7 @@
 """
 Mamba logger utilities
 """
+import os
 
 from twisted.python import logfile
 from storm.tracer import debug as storm_debug
@@ -18,8 +19,15 @@ class StormDebugLogFile(logfile.DailyLogFile):
     def start(cls):
         """Start logging
         """
-
-        obj = cls.fromFullPath('logs/storm.log')
+        # Avoiding circular import
+        from mamba.utils import config
+        settings = config.Application('config/application.json')
+        log_dir = getattr(settings, 'log_dir', 'logs')
+        if log_dir == 'logs':
+            log_file = 'storm.log'
+        else:
+            log_file = '{}-storm.log'.format(getattr(settings, 'name'))
+        obj = cls.fromFullPath(os.path.join(log_dir, log_file))
         storm_debug(True, stream=obj)
 
     @staticmethod
