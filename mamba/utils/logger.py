@@ -23,8 +23,8 @@ class StormDebugLogFile(logfile.DailyLogFile):
         from mamba.utils import config
         settings = config.Application()
         log_dir = getattr(settings, 'log_dir', 'logs')
-
-        obj = cls.fromFullPath(os.path.join(log_dir, 'storm.log'))
+        log_file = '{}-storm.log'.format(getattr(settings, 'name'))
+        obj = cls.fromFullPath(os.path.join(log_dir, log_file))
         storm_debug(True, stream=obj)
 
     @staticmethod
