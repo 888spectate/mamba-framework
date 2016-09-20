@@ -21,7 +21,7 @@ class StormDebugLogFile(logfile.DailyLogFile):
         """
         # Avoiding circular import
         from mamba.utils import config
-        settings = config.Application()
+        settings = config.Application('config/application.json')
         log_dir = getattr(settings, 'log_dir', 'logs')
         log_file = '{}-storm.log'.format(getattr(settings, 'name'))
         obj = cls.fromFullPath(os.path.join(log_dir, log_file))
