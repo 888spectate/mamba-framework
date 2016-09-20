@@ -140,7 +140,7 @@ class Mamba(borg.Borg):
                 log_file = getattr(options, key)
                 if log_file is not None:
                     log_dir = getattr(options, 'log_dir', 'logs')
-                    log_file = '{}/{}'.format(log_dir, log_file)
+                    log_file = os.path.join(log_dir, log_file)
                     setattr(self, '_log_file', log_file)
             else:
                 setattr(self, key, getattr(options, key))
