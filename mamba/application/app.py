@@ -175,7 +175,7 @@ class Mamba(borg.Borg):
 
     @property
     def log_file(self):
-        return self._log_file if self._log_file is not None else 'service.log'
+        return self._log_file
 
     @log_file.setter
     def log_file(self, file):
