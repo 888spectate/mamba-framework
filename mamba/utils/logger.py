@@ -23,7 +23,7 @@ class StormDebugLogFile(object):
 
     def write(self, msg):
         self._observer.emit({
-            'message': str(msg),
+            'message': [str(msg)],
             'time': time.time(),
             'isError': 0,
             'system': ''
