@@ -25,7 +25,8 @@ class StormDebugLogFile(object):
         self._observer.emit({
             'message': str(msg),
             'time': time.time(),
-            'isError': 0
+            'isError': 0,
+            'system': ''
         })
 
     def flush(self):
