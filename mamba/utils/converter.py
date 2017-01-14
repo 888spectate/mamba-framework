@@ -70,7 +70,7 @@ class Converter(object):
 
                     return values
         except AttributeError as error:
-            log.msg(error, logLevel=logging.WARN)
+            log.info(error, logLevel=logging.WARN)
 
         return obj
 

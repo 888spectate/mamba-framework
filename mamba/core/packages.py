@@ -50,9 +50,9 @@ class PackagesManager(object):
         auto imported in our templates
         """
 
-        log.msg('Registering packages...')
+        log.info('Registering packages...')
         for package, data in self.config.packages.iteritems():
-            log.msg('registring package {}'.format(package))
+            log.info('registring package {}'.format(package))
             try:
                 module = __import__(package, globals(), locals())
             except ImportError:

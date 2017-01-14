@@ -99,7 +99,7 @@ class Mamba(borg.Borg):
             if hasattr(gc, 'set_debug'):
                 gc.set_debug(gc.DEBUG_STATS | gc.DEBUG_INSTANCES)
             else:
-                log.msg(
+                log.info(
                     'Debug is set as True but gc object is laking '
                     'set_debug method'
                 )

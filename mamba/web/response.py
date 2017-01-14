@@ -41,9 +41,9 @@ class Response(object):
 
         if code in (http.BAD_REQUEST, http.NOT_FOUND):
             if type(self.subject) not in [unicode, str]:
-                log.msg(brown(str(self.subject)), logLevel=logging.WARN)
+                log.info(brown(str(self.subject)), logLevel=logging.WARN)
             else:
-                log.msg(brown(self.subject), logLevel=logging.WARN)
+                log.info(brown(self.subject), logLevel=logging.WARN)
 
     def __repr__(self):
         return 'IResponse({})'.format(

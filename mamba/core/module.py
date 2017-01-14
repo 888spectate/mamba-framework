@@ -132,7 +132,7 @@ class ModuleManager(object):
             raise ModuleError(
                 'Tried to reload %s that is not yet loaded' % module)
 
-        log.msg(
+        log.info(
             '{}: {} {}'.format(
                 output.green('Reloading module'),
                 object.__class__.__name__, object
@@ -142,7 +142,7 @@ class ModuleManager(object):
         try:
             rebuild.rebuild(tmp_module, False)
         except Exception as error:
-            log.msg(
+            log.info(
                 '{}: {}\n{}'.format(
                     output.brown('Error reloading module'),
                     error,

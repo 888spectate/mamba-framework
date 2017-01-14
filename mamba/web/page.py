@@ -285,7 +285,7 @@ class Page(resource.Resource):
         :type shared: bool
         """
 
-        log.msg(
+        log.info(
             'Registering {} controller {} with route {} {}({})'.format(
                 'shared' if shared else '',
                 controller.get('object').name,

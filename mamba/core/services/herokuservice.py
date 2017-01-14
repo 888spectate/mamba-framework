@@ -50,7 +50,7 @@ class HerokuService(service.Service):
             return
 
         heroku_url = config.Application().heroku_url
-        log.msg('Heroku Awakening: Pinging {}'.format(heroku_url))
+        log.info('Heroku Awakening: Pinging {}'.format(heroku_url))
         return Agent(reactor).request(
             'GET', '{url}/_mamba_pong'.format(url=str(heroku_url)),
             Headers({'User-Agent': ['Mamba Heroku Web Client']}),

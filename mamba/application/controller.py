@@ -124,7 +124,7 @@ class Controller(resource.Resource, ControllerProvider):
             '===============================================================\n'
             ''.format(controller=self.__class__.__name__)
         )
-        log.msg(bold(msg))
+        log.info(bold(msg))
 
         return self
 
