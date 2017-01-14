@@ -13,10 +13,12 @@
 from singledispatch import singledispatch
 
 from twisted.web import static, server
-from twisted.python import log, filepath
+from twisted.python import filepath
+from twisted.python import log as twisted_log
 from twisted.python.logfile import DailyLogFile
 
 from mamba.utils.less import LessResource
+from mamba.utils import log
 from mamba.core import templating, resource
 
 os = filepath.os
@@ -44,7 +46,7 @@ class Page(resource.Resource):
         # register log file if any
         if (app.development is False and
                 app.already_logging is False and app.log_file is not None):
-            log.startLogging(DailyLogFile.fromFullPath(app.log_file))
+            twisted_log.startLogging(DailyLogFile.fromFullPath(app.log_file))
 
         self._assets = resource.Assets([os.getcwd() + '/static'])
         self.template_paths = [

@@ -17,7 +17,7 @@ from string import digits
 from hashlib import sha1, md5
 from struct import pack, unpack
 
-from twisted.python import log
+from mamba.utils import log
 from twisted.web.http import datetimeToString
 from twisted.internet.interfaces import ISSLTransport
 from twisted.protocols.policies import ProtocolWrapper, WrappingFactory

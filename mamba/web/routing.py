@@ -17,7 +17,7 @@ import functools
 from singledispatch import singledispatch
 from collections import defaultdict, OrderedDict
 
-from twisted.python import log
+from mamba.utils import log
 from twisted.internet import defer
 from twisted.web.http import parse_qs
 

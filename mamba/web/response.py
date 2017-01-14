@@ -14,7 +14,7 @@
 import logging
 
 from twisted.web import http
-from twisted.python import log
+from mamba.utils import log
 from zope.interface import implementer
 
 from mamba.utils.output import brown

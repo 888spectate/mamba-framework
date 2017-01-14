@@ -11,7 +11,7 @@
 
 """
 
-from twisted.python import log
+from mamba.utils import log
 from twisted.web.client import Agent
 from twisted.application import service
 from twisted.internet import task, reactor

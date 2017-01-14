@@ -13,7 +13,7 @@
 
 import os
 
-from twisted.python import log
+from mamba.utils import log
 
 from mamba.utils.config import InstalledPackages
 from mamba.application.model import ModelManager

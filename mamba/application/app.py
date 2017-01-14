@@ -15,11 +15,13 @@ import gc
 
 from twisted.web import http
 from twisted.internet import address
+from twisted.python import log as twisted_log
 from twisted.python.logfile import DailyLogFile
 from twisted.python.monkey import MonkeyPatcher
-from twisted.python import versions, filepath, log
+from twisted.python import versions, filepath
 
 from mamba.utils import borg
+from mamba.utils import log
 from mamba.http import headers
 from mamba.core import packages
 from mamba import _version as _mamba_version
@@ -122,7 +124,7 @@ class Mamba(borg.Borg):
 
         if self.development is False and self._log_file is not None:
             self.already_logging = True
-            log.startLogging(DailyLogFile.fromFullPath(self.log_file))
+            twisted_log.startLogging(DailyLogFile.fromFullPath(self.log_file))
 
     def _parse_options(self, options):
         if options is None:

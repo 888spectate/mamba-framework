@@ -16,9 +16,10 @@ import re
 import traceback
 from collections import OrderedDict
 
-from twisted.python import filepath, log, rebuild
+from twisted.python import filepath, rebuild
 
 from mamba.core import GNU_LINUX
+from mamba.utils import log
 
 if GNU_LINUX:
     from zope.interface import implements

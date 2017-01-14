@@ -14,7 +14,7 @@ import decimal
 import logging
 import collections
 
-from twisted.python import log
+from mamba.utils import log
 
 
 class Converter(object):
