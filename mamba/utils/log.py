@@ -1,4 +1,5 @@
 import logging
+import syslog
 from twisted.python.log import msg as twisted_msg
 from twisted.python.log import err as twisted_error
 
@@ -19,6 +20,7 @@ def _prepend_err_severity(severity, args):
 
 
 def debug(*args, **kwargs):
+    kwargs['syslogPriority'] = syslog.LOG_DEBUG
     twisted_msg(*_prepend_msg_severity("DEBUG", args), **kwargs)
 
 
@@ -27,14 +29,17 @@ def msg(*args, **kwargs):
 
 
 def info(*args, **kwargs):
+    kwargs['syslogPriority'] = syslog.LOG_INFO
     twisted_msg(*_prepend_msg_severity("INFO", args), **kwargs)
 
 
 def warning(*args, **kwargs):
+    kwargs['syslogPriority'] = syslog.LOG_WARNING
     twisted_msg(*_prepend_msg_severity("WARNING", args), **kwargs)
 
 
 def error(*args, **kwargs):
+    kwargs['syslogPriority'] = syslog.LOG_ERR
     twisted_error(*_prepend_err_severity("ERROR", args), **kwargs)
 
 
@@ -43,4 +48,5 @@ def err(*args, **kwargs):
 
 
 def critical(*args, **kwargs):
+    kwargs['syslogPriority'] = syslog.LOG_CRIT
     twisted_error(*_prepend_err_severity("CRITICAL", args), **kwargs)
