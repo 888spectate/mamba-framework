@@ -12,7 +12,6 @@
 
 import re
 import inspect
-import logging
 import functools
 from singledispatch import singledispatch
 from collections import defaultdict, OrderedDict
@@ -201,7 +200,7 @@ class Router(object):
                     {'content-type': 'text/plain'}
                 ))
         except TypeError as error:
-            log.info(error, logLevel=logging.WARN)
+            log.err(error)
             result = defer.succeed(response.BadRequest(
                 str(error),
                 {'content-type': 'text/plain'}
