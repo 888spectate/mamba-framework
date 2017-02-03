@@ -12,7 +12,8 @@
 
 import sys
 
-from twisted.python import log, filepath
+from twisted.python import filepath
+from mamba.utils import log
 
 try:
     from fabric import state

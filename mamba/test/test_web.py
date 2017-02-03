@@ -623,7 +623,7 @@ class RouterTest(unittest.TestCase):
     def test_dispatch_route_internal_server_error(self):
 
         controller = StubController()
-        request = request_generator(['/test/102'], headers=False)
+        request = request_generator(['/internal-server-error'], headers=False)
 
         result = yield controller.render(request)
         self.assertIsInstance(result, response.InternalServerError)
@@ -771,7 +771,7 @@ class RouterTest(unittest.TestCase):
         router = Router()
         router.install_routes(StubController())
 
-        self.assertTrue(len(router.routes['GET']) == 3)
+        self.assertTrue(len(router.routes['GET']) == 4)
 
         del router
         router = Router()
@@ -783,7 +783,7 @@ class RouterTest(unittest.TestCase):
 
         router.install_routes(MyStubController())
 
-        self.assertTrue(len(router.routes['GET']) == 4)
+        self.assertTrue(len(router.routes['GET']) == 5)
 
     def test_install_router_fails_when_give_wrong_arguments(self):
 
@@ -797,7 +797,7 @@ class RouterTest(unittest.TestCase):
         router.install_routes(StubController())
 
         # only one of the routes should be installed
-        self.assertTrue(len(router.routes['GET']) == 3)
+        self.assertTrue(len(router.routes['GET']) == 4)
 
     def test_install_several_HTTP_methods_per_route_decorator(self):
 
@@ -810,7 +810,7 @@ class RouterTest(unittest.TestCase):
 
         router.install_routes(MyStubController())
 
-        self.assertTrue(len(router.routes['GET']) == 4)
+        self.assertTrue(len(router.routes['GET']) == 5)
         self.assertTrue(len(router.routes['POST']) == 1)
         self.assertEqual(
             router.routes['GET']['/multimethod_test'],
@@ -962,6 +962,10 @@ class StubController(object):
     @decoroute('/test/<int:user_id>')
     def test(self, request, user_id, **kwargs):
         return 'User ID : {}'.format(user_id)
+
+    @decoroute('/internal-server-error')
+    def internal_server_error(self, request, **kwargs):
+        return 'User ID : {}'.format(request.user_id)
 
     @decoroute('/defer')
     @defer.inlineCallbacks
