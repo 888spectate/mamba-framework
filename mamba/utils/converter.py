@@ -14,7 +14,7 @@ import decimal
 import logging
 import collections
 
-from twisted.python import log
+from mamba.utils import log
 
 
 class Converter(object):
@@ -70,7 +70,7 @@ class Converter(object):
 
                     return values
         except AttributeError as error:
-            log.msg(error, logLevel=logging.WARN)
+            log.info(error, logLevel=logging.WARN)
 
         return obj
 

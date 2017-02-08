@@ -17,7 +17,7 @@ from string import digits
 from hashlib import sha1, md5
 from struct import pack, unpack
 
-from twisted.python import log
+from mamba.utils import log
 from twisted.web.http import datetimeToString
 from twisted.internet.interfaces import ISSLTransport
 from twisted.protocols.policies import ProtocolWrapper, WrappingFactory
@@ -638,7 +638,7 @@ class WebSocketProtocol(ProtocolWrapper):
 
             # start next phase of handshake for HyBi-00
             if self.is_hybi00:
-                log.msg('Starting HyBi-00/Hixie-76 handshake')
+                log.info('Starting HyBi-00/Hixie-76 handshake')
                 self.version = HYBI00
                 self.state = CHALLENGE
 
@@ -646,18 +646,18 @@ class WebSocketProtocol(ProtocolWrapper):
             version = self.headers.get('Sec-WebSocket-Version')
             if version is not None:
                 if version not in ('7', '8', '13'):
-                    log.msg('Can\'t support protocol version {}'.format(
+                    log.info('Can\'t support protocol version {}'.format(
                         version))
                     raise InvalidProtocolVersion()
 
                 if version == '7':
-                    log.msg('Starting HyBi-07 conversation')
+                    log.info('Starting HyBi-07 conversation')
                     self.version = HYBI07
                 elif version == '8':
-                    log.msg('Starting HyBi-10 conversation')
+                    log.info('Starting HyBi-10 conversation')
                     self.version = HYBI10
                 elif version == '13':
-                    log.msg('Starting RFC 6455 conversation')
+                    log.info('Starting RFC 6455 conversation')
                     self.version = RFC6455
 
                 preamble = HyBi07HandshakePreamble(self)
@@ -676,7 +676,7 @@ class WebSocketProtocol(ProtocolWrapper):
             # send the handshake preamble with the response
             preamble = HyBi00HandshakePreamble(self)
             preamble.write_to_transport(self.transport, response)
-            log.msg('Completed HyBi-00/Hixie-76 handshake')
+            log.info('Completed HyBi-00/Hixie-76 handshake')
 
             # we are done here, start sending frames
             self.state = FRAMES
@@ -711,7 +711,7 @@ class WebSocketProtocol(ProtocolWrapper):
             elif opcode == CLOSE:
                 # the other side want's to close
                 reason, text = data
-                log.msg('Closing connection: {!r} ({:d})'.format(
+                log.info('Closing connection: {!r} ({:d})'.format(
                     text, reason
                 ))
 

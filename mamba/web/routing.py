@@ -12,12 +12,11 @@
 
 import re
 import inspect
-import logging
 import functools
 from singledispatch import singledispatch
 from collections import defaultdict, OrderedDict
 
-from twisted.python import log
+from mamba.utils import log
 from twisted.internet import defer
 from twisted.web.http import parse_qs
 
@@ -201,7 +200,7 @@ class Router(object):
                     {'content-type': 'text/plain'}
                 ))
         except TypeError as error:
-            log.msg(error, logLevel=logging.WARN)
+            log.err(error)
             result = defer.succeed(response.BadRequest(
                 str(error),
                 {'content-type': 'text/plain'}
@@ -238,7 +237,7 @@ class Router(object):
                     for arg in real_args:
                         if arg not in route.arguments.keys():
                             green = output.darkgreen
-                            log.msg(
+                            log.info(
                                 '{ERROR}: {arg} is not present in the {rout} '
                                 'url for function {func_name}. Please, revise '
                                 'your @route url string. The paramters names '
@@ -278,7 +277,7 @@ class Router(object):
 
         if getattr(config.Application(), 'debug', False):
             bold = output.bold
-            log.msg(
+            log.info(
                 bold('Registering route:') + ' {route}'.format(route=route))
 
         try:
