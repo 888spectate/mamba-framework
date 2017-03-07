@@ -20,7 +20,7 @@ from os.path import normpath
 from collections import OrderedDict
 
 from storm.uri import URI
-from twisted.python import log
+from mamba.utils import log
 from storm.expr import Desc, Undef
 from storm.twisted.transact import Transactor
 from storm.references import Reference, ReferenceSet

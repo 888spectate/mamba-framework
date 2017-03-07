@@ -14,7 +14,7 @@
 
 from os.path import normpath
 
-from twisted.python import log
+from mamba.utils import log
 from twisted.web import http, server
 from zope.interface import implementer
 
@@ -124,7 +124,7 @@ class Controller(resource.Resource, ControllerProvider):
             '===============================================================\n'
             ''.format(controller=self.__class__.__name__)
         )
-        log.msg(bold(msg))
+        log.info(bold(msg))
 
         return self
 
