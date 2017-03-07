@@ -11,13 +11,9 @@
 
 """
 
-import logging
-
 from twisted.web import http
-from twisted.python import log
 from zope.interface import implementer
 
-from mamba.utils.output import brown
 from mamba.core.interfaces import IResponse
 
 
@@ -38,12 +34,6 @@ class Response(object):
         self.code = code
         self.subject = subject
         self.headers = headers
-
-        if code in (http.BAD_REQUEST, http.NOT_FOUND):
-            if type(self.subject) not in [unicode, str]:
-                log.msg(brown(str(self.subject)), logLevel=logging.WARN)
-            else:
-                log.msg(brown(self.subject), logLevel=logging.WARN)
 
     def __repr__(self):
         return 'IResponse({})'.format(
