@@ -157,7 +157,7 @@ class MovedPermanently(Response):
             {
                 'content-type': 'text/plain; charset=utf-8',
                 'location': url
-            }
+        }
         )
 
 
