@@ -2,6 +2,8 @@
 Mamba Framework
 ===============
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bf9882326ef84bef9634ce43973e6057)](https://www.codacy.com/app/BetBright/mamba-framework?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Kelfast/mamba-framework&amp;utm_campaign=Badge_Grade)
+
 Mamba is a high-level Web Applications framework based on Twisted, Storm and Jinja2.
 
 <table>
