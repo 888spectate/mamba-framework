@@ -45,7 +45,7 @@ class Response(object):
         self.headers = headers
 
         if code in (http.BAD_REQUEST, http.NOT_FOUND):
-            if type(self.subject) not in [unicode, str]:
+            if not isinstance(self.subject, (unicode, str)):
                 log.msg(brown(str(self.subject)), logLevel=logging.WARN)
             else:
                 log.msg(brown(self.subject), logLevel=logging.WARN)
@@ -213,7 +213,9 @@ class BadRequest(Response):
     :type headers: dict or a list of dicts
     """
 
-    def __init__(self, subject='', headers={}):
+    def __init__(self, subject='', headers=None):
+        if headers is None:
+            headers = {}
         super(BadRequest, self).__init__(http.BAD_REQUEST, subject, headers)
 
 
@@ -239,7 +241,9 @@ class Forbidden(Response):
     :type headers: dict or a list of dicts
     """
 
-    def __init__(self, subject, headers={}):
+    def __init__(self, subject, headers=None):
+        if headers is None:
+            headers = {}
         if not subject:
             subject = 'Access is Forbidden'
 
@@ -258,7 +262,9 @@ class NotFound(Response):
     :type headers: dict or a list of dicts
     """
 
-    def __init__(self, subject, headers={}):
+    def __init__(self, subject, headers=None):
+        if headers is None:
+            headers = {}
         if not subject:
             subject = 'Mamba resource not found'
 
