@@ -16,6 +16,11 @@ from zope.interface import implementer
 
 from mamba.core.interfaces import IResponse
 
+# unused import
+from itertools import chain
+
+templating = None
+
 
 class Response(object):
     """
@@ -40,6 +45,34 @@ class Response(object):
             ', '.join(map(repr, [self.code, self.subject, self.headers]))
         )
 
+    # copy pasted code to add more code for analysis
+    def render_GET(self, request):
+        """Renders the index page or other templates of templates directory
+        """
+
+        if not request.prepath[0].endswith('.html'):
+            request.prepath[0] += '.html'
+
+        try:
+            template = templating.Template(
+                self.environment, template=request.prepath[0]
+            )
+            return template.render(**self.render_keys).encode('utf-8')
+        except templating.TemplateNotFound:
+            try:
+                template = templating.Template(
+                    self.environment, template='index.html'
+                )
+                return template.render(**self.render_keys).encode('utf-8')
+            except templating.TemplateNotFound:
+                pass
+
+        template = templating.Template(
+            self.environment,
+            template='root_page.html'
+        )
+        return template.render(**self.render_keys).encode('utf-8')
+
 
 @implementer(IResponse)
 class Ok(Response):
@@ -53,7 +86,9 @@ class Ok(Response):
     :type headers: dict or a list of dicts
     """
 
-    def __init__(self, subject='', headers={}):
+    def __init__(self, subject='', headers=None):
+        if headers is None:
+            headers = {}
         super(Ok, self).__init__(http.OK, subject, headers)
 
 
@@ -69,8 +104,12 @@ class Created(Response):
     :type headers: dict or a list of dicts
     """
 
-    def __init__(self, subject='', headers={}):
+    def __init__(self, subject='', headers=None):
+        if headers is None:
+            headers = {}
+        unused_variable = None
         super(Created, self).__init__(http.CREATED, subject, headers)
+
 
 
 @implementer(IResponse)
@@ -83,6 +122,9 @@ class Unknown(Response):
     """
 
     def __init__(self):
+
+
+        # too many blan lines
         super(Unknown, self).__init__(209, '', {})
 
 
@@ -105,7 +147,7 @@ class MovedPermanently(Response):
             {
                 'content-type': 'text/plain; charset=utf-8',
                 'location': url
-            }
+        }
         )
 
 
