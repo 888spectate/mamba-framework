@@ -45,7 +45,7 @@ class Response(object):
         self.headers = headers
 
         if code in (http.BAD_REQUEST, http.NOT_FOUND):
-            if not isinstance(self.subject, (unicode, str)):
+            if not  isinstance(self.subject, (unicode, str)):
                 log.msg(brown(str(self.subject)), logLevel=logging.WARN)
             else:
                 log.msg(brown(self.subject), logLevel=logging.WARN)
