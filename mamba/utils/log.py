@@ -14,7 +14,7 @@ def _prepend_err_severity(severity, args):
     if len(args_list) == 2:
         args_list[1] = "[%s] %s" % (severity, args_list[1])
     elif len(args_list) == 0:
-        args_list = [None, "[%s] %s" % (severity, "Unhandled error")]
+        args_list = [None, "[%s] %s" % (severity, "Unhandled exception")]
     elif isinstance(args_list[0], (str, unicode)):
         args_list[0] = "[%s] %s" % (severity, args_list[0])
 
