@@ -394,7 +394,7 @@ class HyBi07Frame(object):
                     break
 
                 # read the next eigth bytes (start +2:start +10) and unpack
-                length = unpack('>Q', self.buff[start + 2:start + 10])[0]
+                length = unpack('>Q', self.buf[start + 2:start + 10])[0]
                 offset += 8
 
             # browser client is supossed to send all frames masked so this
