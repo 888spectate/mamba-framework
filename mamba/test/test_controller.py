@@ -79,17 +79,27 @@ class ControllerTest(unittest.TestCase):
         self.c.isLeaf = False
         self.assertIdentical(self.c.getChild('test', request), self.c)
 
-    @defer.inlineCallbacks
     def test_send_back(self):
 
         request = DummyRequest(['/test'], '')
-        result = Ok('Testing', {'content-type': 'application/json'})
+        response = Ok('Testing', {'content-type': 'application/json'})
 
         request = request
-        result = yield self.c.sendback(result, request)
+        result = self.c.sendback(response, request)
 
         self.assertEqual(result, None)
         self.assertEqual(request.written[0], 'Testing')
+
+    def test_send_back_encoding_json(self):
+
+        request = DummyRequest(['/test'], '')
+        response = Ok({"test": "me"}, {'content-type': 'application/json'})
+
+        request = request
+        result = self.c.sendback(response, request)
+
+        self.assertEqual(result, None)
+        self.assertEqual(request.written[0], '{"test": "me"}')
 
     def test_register_path_returns_empty(self):
         self.assertEqual(self.c.get_register_path(), '')

@@ -13,6 +13,7 @@
 """
 
 from os.path import normpath
+import json
 
 from mamba.utils import log
 from twisted.web import http, server
@@ -20,7 +21,6 @@ from zope.interface import implementer
 
 from mamba import plugin
 from mamba.web import routing
-from mamba.web import asyncjson
 from mamba.utils.output import bold
 from mamba.core import module, resource
 from mamba.core.interfaces import IController
@@ -159,12 +159,12 @@ class Controller(resource.Resource, ControllerProvider):
 
         try:
             if type(result.subject) is not str:
-                d = asyncjson.AsyncJSON(result.subject).begin(request)
-                d.addCallback(lambda ignored: request.finish())
-                return d
+                subject = json.dumps(result.subject)
             else:
-                request.write(result.subject)
-                request.finish()
+                subject = result.subject
+
+            request.write(subject)
+            request.finish()
         except RuntimeError as error:
             log.err(error)
         except Exception as error:
