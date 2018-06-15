@@ -84,7 +84,6 @@ class ControllerTest(unittest.TestCase):
         request = DummyRequest(['/test'], '')
         response = Ok('Testing', {'content-type': 'application/json'})
 
-        request = request
         result = self.c.sendback(response, request)
 
         self.assertEqual(result, None)
@@ -95,7 +94,6 @@ class ControllerTest(unittest.TestCase):
         request = DummyRequest(['/test'], '')
         response = Ok({"test": "me"}, {'content-type': 'application/json'})
 
-        request = request
         result = self.c.sendback(response, request)
 
         self.assertEqual(result, None)
