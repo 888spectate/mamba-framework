@@ -24,7 +24,7 @@ from mamba.utils import json
 from mamba.core import packages, GNU_LINUX
 from mamba.application import route as decoroute
 from mamba.application import appstyles, controller, scripts
-from mamba.web import stylesheet, page, asyncjson, response, script
+from mamba.web import stylesheet, page, response, script
 from mamba.web.routing import Route, Router, RouteDispatcher, RouterError
 
 from mamba.test.test_less import less_file
@@ -313,24 +313,6 @@ class AppScriptTest(unittest.TestCase):
         )
         self.assertTrue('dummyshared.js' in mgr.managers[0]._scripts)
         filepath.FilePath(config_file.name).remove()
-
-
-class AsyncJSONTest(unittest.TestCase):
-
-    @defer.inlineCallbacks
-    def test_asyncjson(self):
-
-        consumer = Spy(Request)
-
-        ajson = ProxySpy(asyncjson.AsyncJSON({'id': 1, 'name': 'Test'}))
-        r = yield ajson.begin(consumer)
-        for p in r:
-            pass
-        assert_that(consumer.registerProducer, called().times(1))
-        assert_that(consumer.write, called())
-        assert_that(consumer.unregisterProducer, called().times(1))
-        assert_that(ajson.begin, called())
-        self.flushLoggedErrors()
 
 
 class PageTest(unittest.TestCase):
