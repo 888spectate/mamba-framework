@@ -297,12 +297,6 @@ Web
 
 Subpackage containing the modules that implement web stuff for projects
 
-AsyncJSON
-.........
-
-.. autoclass:: mamba.web.asyncjson.AsyncJSON
-    :members:
-
 
 Page
 ....
