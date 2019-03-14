@@ -369,7 +369,16 @@ class Package(object):
             )
 
     def _pip_install_package(self):
-        """Use pip to install a package"""
+        """Use pip to install a package.
+
+        Requires package to be in a state which is pip installable, i.e. that a
+        setup.py is already specified.
+        Note that the legacy code dynamically generating the setup.py file.
+        See: Packer.write_setup_script
+        """
+
+        if not filepath.exists('setup.py'):
+            raise Exception("Not setup.py file found.  Cannot install package.")
 
         try:
             mamba_services = commons.import_services()
