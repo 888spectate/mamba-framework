@@ -378,7 +378,7 @@ class Package(object):
         """
 
         if not filepath.exists('setup.py'):
-            raise Exception("Not setup.py file found.  Cannot install package.")
+            raise Exception('No setup.py file found.  Cannot install package.')
 
         try:
             mamba_services = commons.import_services()
