@@ -352,7 +352,7 @@ class Package(object):
         """Install the current mamba application or a packed one
         """
 
-        if PIP_IS_AVAILABLE:
+        if PIP_IS_AVAILABLE and self._is_pip_installable():
             self._pip_install_package()
             return None
 
@@ -368,6 +368,11 @@ class Package(object):
                 self.options.subOptions.opts['filepath']
             )
 
+    @staticmethod
+    def _is_pip_installable():
+        """Check if we can pip install the package - setup.py is required"""
+        return filepath.exists('setup.py')
+
     def _pip_install_package(self):
         """Use pip to install a package.
 
@@ -377,8 +382,6 @@ class Package(object):
         See: Packer.write_setup_script
         """
 
-        if not filepath.exists('setup.py'):
-            raise Exception('No setup.py file found.  Cannot install package.')
 
         try:
             mamba_services = commons.import_services()
