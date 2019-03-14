@@ -373,7 +373,7 @@ class Package(object):
 
         Requires package to be in a state which is pip installable, i.e. that a
         setup.py is already specified.
-        Note that the legacy code dynamically generating the setup.py file.
+        Note that the legacy code was dynamically generating the setup.py file.
         See: Packer.write_setup_script
         """
 
