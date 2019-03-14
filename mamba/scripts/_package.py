@@ -382,7 +382,6 @@ class Package(object):
         See: Packer.write_setup_script
         """
 
-
         try:
             mamba_services = commons.import_services()
             mamba_services.config.Application('config/application.json')
