@@ -383,7 +383,6 @@ class Package(object):
 
         print('Installing {}...'.format(name).ljust(73), end='')
         try:
-            packer = Packer()
 
             args = ['pip', 'install', '--upgrade']
 
@@ -392,7 +391,7 @@ class Package(object):
 
             args.append(os.curdir)
 
-            p = packer.do(args)
+            p = subprocess.call(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
             if p == 0:
                 print('[{}]'.format(darkgreen('Ok')))
