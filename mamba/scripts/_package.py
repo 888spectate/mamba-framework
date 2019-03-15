@@ -352,6 +352,10 @@ class Package(object):
         """Install the current mamba application or a packed one
         """
 
+        if PIP_IS_AVAILABLE and self._is_pip_installable():
+            self._pip_install_package()
+            return None
+
         if self.options.subOptions.opts['filepath'] is None:
             try:
                 mamba_services = commons.import_services()
@@ -363,6 +367,50 @@ class Package(object):
             self._handle_install_already_packed_application(
                 self.options.subOptions.opts['filepath']
             )
+
+    @staticmethod
+    def _is_pip_installable():
+        """Check if we can pip install the package - setup.py is required"""
+        return filepath.exists('setup.py')
+
+    def _pip_install_package(self):
+        """Use pip to install a package.
+
+        Requires package to be in a state which is pip installable, i.e. that a
+        setup.py is already specified.
+        Note that the legacy code is dynamically generating the setup.py file.
+        See: Packer.write_setup_script
+        """
+
+        try:
+            mamba_services = commons.import_services()
+            mamba_services.config.Application('config/application.json')
+        except Exception:
+            mamba_services_not_found()
+
+        name = 'mamba-{}'.format(
+            mamba_services.config.Application('config/application.json').name.lower()
+        )
+
+        print('Installing {}...'.format(name).ljust(73), end='')
+        try:
+
+            args = ['pip', 'install', '--upgrade']
+
+            if self.options.subOptions['user']:
+                args.append(['--user'])
+
+            args.append(os.curdir)
+
+            p = subprocess.call(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+            if p == 0:
+                print('[{}]'.format(darkgreen('Ok')))
+            else:
+                raise Exception('Unexpected output from pip install command: {}'.format(p))
+        except:
+            print('[{}]'.format(darkred('Fail')))
+            raise
 
     def _handle_install_current_directory(self, mamba_services):
         """Handles the installation of the current directory
@@ -429,13 +477,20 @@ class Package(object):
                 stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                 stdin=subprocess.PIPE
             )
-            stdout, error = p.communicate('y')
-            if error is not '':
-                raise RuntimeError(error)
-            elif p.returncode is not 0:
-                raise RuntimeError(stdout)
-            else:
+            p.communicate('y')
+            # PROD-3384: previous code was checking stderr for errors but inside our
+            # vagrant virtual environments stderr was returning a message telling us
+            # to upgrade pip. This was resulting in the user being incorrectly told
+            # the uninstall command had failed.
+            # Now checking return code from command: should be 0 if the command was
+            # successfully executed
+
+            if p.returncode == 0:
                 print('[{}]'.format(darkgreen('Ok')))
+            else:
+                raise Exception(
+                    'Unexpected output from pip install command: {}'.format(p.returncode)
+                )
         except:
             print('[{}]'.format(darkred('Fail')))
             raise
