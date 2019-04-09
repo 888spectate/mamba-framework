@@ -64,3 +64,5 @@ devtools/
 Vagrantfile
 bootstrap.sh
 .vagrant
+
+.idea/
