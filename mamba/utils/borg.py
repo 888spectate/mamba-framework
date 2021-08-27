@@ -10,6 +10,7 @@
 .. moduleauthor:: Oscar Campos <oscar.campos@member.fsf.org>
 
 """
+from twisted.python import log
 
 
 class Borg(object):
@@ -44,6 +45,7 @@ class Borg(object):
     _shared_state = {}
 
     def __new__(cls, *args, **kwargs):
+        log.msg("{}.__new__ with params {} {}".format(cls.__name__, str(args), str(kwargs)))
         obj = super(Borg, cls).__new__(cls, *args, **kwargs)
         obj.__dict__ = cls._shared_state.setdefault(cls, {})
         return obj
