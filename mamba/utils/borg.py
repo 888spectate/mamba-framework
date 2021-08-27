@@ -46,6 +46,7 @@ class Borg(object):
 
     def __new__(cls, *args, **kwargs):
         log.msg("{}.__new__ with params {} {}".format(cls.__name__, str(args), str(kwargs)))
+        print("{}.__new__ with params {} {}".format(cls.__name__, str(args), str(kwargs)))
         obj = super(Borg, cls).__new__(cls, *args, **kwargs)
         obj.__dict__ = cls._shared_state.setdefault(cls, {})
         return obj
