@@ -126,7 +126,6 @@ class Mamba(borg.Borg):
         if self.log_to_stdout is True:
             self.already_logging = True
             twisted_log.startLogging(sys.stdout)
-            return
 
         if self.development is False and self._log_file is not None:
             self.already_logging = True
