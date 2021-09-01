@@ -69,7 +69,6 @@ class Mamba(borg.Borg):
 
         self.monkey_patched = False
         self.development = False
-        self.already_logging = False
         self.log_to_stdout = False
         self._mamba_ver = _mamba_version.version.short()
         self._ver = _app_ver.short()
@@ -120,15 +119,13 @@ class Mamba(borg.Borg):
 
     def _handle_logging(self):
         """
-        Start logging to file if there is some file configuration and we
-        are not running in development mode
+        Start logging to stdout and / or file
         """
-        if self.log_to_stdout is True:
-            self.already_logging = True
+
+        if self.development is True or self.log_to_stdout is True:
             twisted_log.startLogging(sys.stdout)
 
         if self.development is False and self._log_file is not None:
-            self.already_logging = True
             twisted_log.startLogging(DailyLogFile.fromFullPath(self.log_file))
 
     def _parse_options(self, options):
