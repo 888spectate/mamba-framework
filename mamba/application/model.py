@@ -278,28 +278,27 @@ class Model(ModelProvider):
     def prepare_for_upsert(self, **kwargs):
         """Prepare a model to be upserted
         """
+        def _normalize_value(value):
+            if value is None:
+                return 'NULL'
+
+            if isinstance(value, basestring):
+                value = value.replace("'", "''")
+                try:
+                    value = "'{}'".format(value)
+                except UnicodeEncodeError:
+                    value = "'{}'".format(value.encode('utf8'))
+
+            return value
 
         normalized_model = {}
         for k, v in self.dict(traverse=False).items():
-            normalized_model[k] = self._normalize_value(v)
+            normalized_model[k] = _normalize_value(v)
 
         for k, v in kwargs.items():
-            normalized_model[k] = self._normalize_value(v)
+            normalized_model[k] = _normalize_value(v)
 
         return normalized_model
-
-    def _normalize_value(self, value):
-        if value is None:
-            return 'NULL'
-
-        if isinstance(value, basestring):
-            value = value.replace("'", "''")
-            try:
-                value = "'{}'".format(value)
-            except UnicodeEncodeError:
-                value = "'{}'".format(value.encode('utf8'))
-
-        return value
 
     def store(self, database=None):
         """Return a valid Storm store for this model
