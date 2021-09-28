@@ -288,8 +288,7 @@ class Model(ModelProvider):
 
         return normalized_model
 
-    @staticmethod
-    def _normalize_value(value):
+    def _normalize_value(self, value):
         if value is None:
             return 'NULL'
 
