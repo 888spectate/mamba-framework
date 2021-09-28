@@ -292,10 +292,11 @@ class Model(ModelProvider):
             return value
 
         normalized_model = {}
-        for k, v in self.dict(traverse=False).items():
+        obj_to_dict = self.dict(traverse=False)
+        for k, v in obj_to_dict.iteritems():
             normalized_model[k] = _normalize_value(v)
 
-        for k, v in kwargs.items():
+        for k, v in kwargs.iteritems():
             normalized_model[k] = _normalize_value(v)
 
         return normalized_model
