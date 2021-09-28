@@ -206,8 +206,6 @@ class Model(ModelProvider):
         mutually exclusive with fields, not working if you also set fields.
         :type exclude: list
         """
-        parent = list(parent)
-        parent.append(self)
         values = self._storm_columns.values()
 
         fields, fk_fields, exclude, fk_exclude = self._generate_format_lists(
@@ -243,7 +241,8 @@ class Model(ModelProvider):
                             for p in values if p.name not in exclude])
 
         if traverse is True:
-
+            parent = list(parent)
+            parent.append(self)
             forbidden = [id(p) for p in parent]
             for attr in inspect.classify_class_attrs(self.__class__):
                 if fields and attr.name not in fields:
