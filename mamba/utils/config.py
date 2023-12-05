@@ -256,6 +256,7 @@ class Application(BaseConfig):
         self.auto_select_reactor = False
         self.force_heroku_awake = False
         self.heroku_url = None
+        self.reload_enabled = False
 
 
 class InstalledPackages(BaseConfig):

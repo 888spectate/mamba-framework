@@ -53,21 +53,19 @@ class ModuleManager(object):
 
         self._modules = OrderedDict()
         self._extension = '.py'
-        reload_enabled = config.Application().reload_enabled
 
-        if reload_enabled:
-            if GNU_LINUX:
-                # Create and setup the Linux iNotify mechanism
-                self.notifier = inotify.INotify()
-                self.notifier.startReading()
-                try:
-                    self.notifier.watch(
-                        filepath.FilePath(self._module_store),
-                        callbacks=[self._notify]
-                    )
-                    self._watching = True
-                except INotifyError:
-                    self._watching = False
+        if config.Application().reload_enabled and GNU_LINUX:
+            # Create and setup the Linux iNotify mechanism
+            self.notifier = inotify.INotify()
+            self.notifier.startReading()
+            try:
+                self.notifier.watch(
+                    filepath.FilePath(self._module_store),
+                    callbacks=[self._notify]
+                )
+                self._watching = True
+            except INotifyError:
+                self._watching = False
 
         # Start the loading process
         self.setup()
