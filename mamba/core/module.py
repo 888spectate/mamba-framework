@@ -53,12 +53,13 @@ class ModuleManager(object):
 
         self._modules = OrderedDict()
         self._extension = '.py'
+        self.reload_enabled = config.Application().reload_enabled
 
         if GNU_LINUX:
             # Create and setup the Linux iNotify mechanism
             self.notifier = inotify.INotify()
             self._watching = False
-            if config.Application().reload_enabled:
+            if self.reload_enabled:
                 self.notifier.startReading()
                 try:
                     self.notifier.watch(
