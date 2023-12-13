@@ -86,6 +86,7 @@ class Mamba(borg.Borg):
 
         self.language = os.environ.get('LANG', 'en_EN').split('_')[0]
         self.lessjs = False
+        self.reload_enabled = False
 
         self._parse_options(options)
 

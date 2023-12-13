@@ -15,15 +15,16 @@ class ApplicationTests(unittest.TestCase):
     """Tests for mamba.application.app
     """
 
+    @staticmethod
+    def _get_cleanup_manager_callable(app, manager_type):
+        return app.managers[manager_type].notifier.loseConnection
+
+
     def setUp(self):
         self.app = app.Mamba()
         if GNU_LINUX:
-            self.addCleanup(
-                self.app.managers.get('controller').notifier.loseConnection
-            )
-            self.addCleanup(
-                self.app.managers.get('model').notifier.loseConnection
-            )
+            self.addCleanup(self._get_cleanup_manager_callable(self.app, 'controller'))
+            self.addCleanup(self._get_cleanup_manager_callable(self.app, 'model'))
 
     def test_constructor_overwrite_options(self):
         name1 = self.app.name
@@ -32,14 +33,14 @@ class ApplicationTests(unittest.TestCase):
             name = 'Test'
 
         app.Mamba().initialized = False
+        if GNU_LINUX:
+            self._get_cleanup_manager_callable(self.app, 'controller')()
+            self._get_cleanup_manager_callable(self.app, 'model')()
+
         app_tmp = app.Mamba(Dummy())
         if GNU_LINUX:
-            self.addCleanup(
-                app_tmp.managers.get('controller').notifier.loseConnection
-            )
-            self.addCleanup(
-                self.app.managers.get('model').notifier.loseConnection
-            )
+            self.addCleanup(self._get_cleanup_manager_callable(app_tmp, 'controller'))
+            self.addCleanup(self._get_cleanup_manager_callable(app_tmp, 'model'))
 
         self.assertNotEqual(name1, app_tmp.name)
 

@@ -19,7 +19,7 @@ from collections import OrderedDict
 from twisted.python import filepath, rebuild
 
 from mamba.core import GNU_LINUX
-from mamba.utils import log
+from mamba.utils import log, config
 
 if GNU_LINUX:
     from zope.interface import implements
@@ -53,19 +53,22 @@ class ModuleManager(object):
 
         self._modules = OrderedDict()
         self._extension = '.py'
+        self.reload_enabled = config.Application().reload_enabled
 
         if GNU_LINUX:
             # Create and setup the Linux iNotify mechanism
             self.notifier = inotify.INotify()
-            self.notifier.startReading()
-            try:
-                self.notifier.watch(
-                    filepath.FilePath(self._module_store),
-                    callbacks=[self._notify]
-                )
-                self._watching = True
-            except INotifyError:
-                self._watching = False
+            self._watching = False
+            if self.reload_enabled:
+                self.notifier.startReading()
+                try:
+                    self.notifier.watch(
+                        filepath.FilePath(self._module_store),
+                        callbacks=[self._notify]
+                    )
+                    self._watching = True
+                except INotifyError:
+                    self._watching = False
 
         # Start the loading process
         self.setup()
