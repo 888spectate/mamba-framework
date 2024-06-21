@@ -129,8 +129,8 @@ class Mamba(borg.Borg):
 
         if self.development is False and self._log_file is not None:
             # twisted_log.startLogging(DailyLogFile.fromFullPath(self.log_file))
-            json_observer = jsonlog.JSONLogObserver(self.log_file)
-            twisted_log.startLoggingWithObserver(json_observer, setStdout=False)
+            json_observer = jsonlog.JSONLogObserver(DailyLogFile.fromFullPath(self.log_file))
+            twisted_log.startLoggingWithObserver(json_observer, setStdout=True)
 
     def _parse_options(self, options):
         if options is None:
