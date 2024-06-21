@@ -1,6 +1,6 @@
 import json
 import time
-from twisted.python import log
+
 
 class JSONLogObserver(object):
     def __init__(self, log_file):
@@ -15,6 +15,7 @@ class JSONLogObserver(object):
             'system': event_dict.get('system', ''),
             'message': self.format_message(event_dict)
         }
+        print "????", event_dict
         
         self.log_file.write(json.dumps(log_entry) + '\n')
         self.log_file.flush()
