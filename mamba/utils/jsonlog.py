@@ -23,7 +23,7 @@ class JSONLogObserver(object):
 
     def format_message(self, event_dict):
         if 'message' in event_dict:
-            message = ' '.join(map(str, event_dict['message']))
+            message = '\n'.join(map(str, event_dict['message']))
             return message
         elif event_dict['isError'] and 'failure' in event_dict:
             return event_dict['failure'].getTraceback()
