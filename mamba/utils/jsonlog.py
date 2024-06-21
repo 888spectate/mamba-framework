@@ -6,7 +6,7 @@ class JSONLogObserver(object):
     def __init__(self, log_file):
         self.log_file = log_file
         
-    def emit(self, event_dict):
+    def __call__(self, event_dict):
         log_level = 'ERROR' if event_dict.get('isError') else 'INFO'
         
         log_entry = {
