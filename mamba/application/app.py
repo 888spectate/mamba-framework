@@ -23,6 +23,7 @@ from twisted.python import versions, filepath
 
 from mamba.utils import borg
 from mamba.utils import log
+from mamba.utils import jsonlog
 from mamba.http import headers
 from mamba.core import packages
 from mamba import _version as _mamba_version
@@ -127,7 +128,9 @@ class Mamba(borg.Borg):
             twisted_log.startLogging(sys.stdout)
 
         if self.development is False and self._log_file is not None:
-            twisted_log.startLogging(DailyLogFile.fromFullPath(self.log_file))
+            # twisted_log.startLogging(DailyLogFile.fromFullPath(self.log_file))
+            json_observer = jsonlog.JSONLogObserver(self.log_file)
+            twisted_log.startLoggingWithObserver(json_observer, setStdout=False)
 
     def _parse_options(self, options):
         if options is None:
