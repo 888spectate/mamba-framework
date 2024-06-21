@@ -5,6 +5,7 @@ import time
 class JSONLogObserver(object):
     def __init__(self, log_file):
         self.log_file = log_file
+        self.buffered_log_entry = None
 
     def __call__(self, event_dict):
         log_level = 'ERROR' if event_dict.get('isError') else 'INFO'
@@ -15,11 +16,16 @@ class JSONLogObserver(object):
             'system': event_dict.get('system', ''),
             'message': self.format_message(event_dict)
         }
-
-        self.extract_message_info(log_entry)
-
-        self.log_file.write(json.dumps(log_entry) + '\n')
-        self.log_file.flush()
+        
+        # Handle multi-line messages
+        if self.buffered_log_entry and log_entry['log_level'] == self.buffered_log_entry['log_level'] and log_entry["message"].startswith(' '):
+            self.buffered_log_entry['message'] += '\n' + log_entry['message']
+        else:
+            if self.buffered_log_entry:
+                self.extract_message_info(log_entry)
+                self.log_file.write(json.dumps(self.buffered_log_entry) + '\n')
+                self.log_file.flush()
+            self.buffered_log_entry = log_entry
 
     def format_message(self, event_dict):
         if 'message' in event_dict:
