@@ -2,7 +2,7 @@ import json
 import time
 from twisted.python import log
 
-class JSONLogObserver:
+class JSONLogObserver(object):
     def __init__(self, log_file):
         self.log_file = log_file
         
